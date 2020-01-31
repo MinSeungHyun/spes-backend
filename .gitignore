@@ -1,3 +1,9 @@
+# npm
+node_modules
+package-lock.json
+*.log
+*.gz
+
 # OS X
 .DS_Store*
 Icon?
@@ -11,14 +17,6 @@ Desktop.ini
 # Linux
 .directory
 *~
-
-
-# npm
-node_modules
-package-lock.json
-*.log
-*.gz
-
 
 # Coveralls
 coverage
