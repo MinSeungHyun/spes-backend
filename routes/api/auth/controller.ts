@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import { IUserModel, User } from '../../../models/user';
-import e = require("express");
 
 /*
 POST /api/auth/register

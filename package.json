@@ -13,7 +13,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.11",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "scryptsy": "^2.1.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
@@ -21,6 +22,7 @@
     "@types/jsonwebtoken": "^8.3.7",
     "@types/mongoose": "^5.7.0",
     "@types/morgan": "^1.7.37",
+    "@types/scryptsy": "^2.0.0",
     "eslint": "^6.8.0"
   }
 }
