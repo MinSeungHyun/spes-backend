@@ -1,6 +1,6 @@
 Spes Backend
 ===
-## 회원가입
+## Register
 POST /api/auth/register  
 ```JSON
 {
@@ -10,7 +10,7 @@ POST /api/auth/register
 }
 ```
 
-## 로그인
+## Login
 POST /api/auth/login
 ```JSON
 {
@@ -18,3 +18,6 @@ POST /api/auth/login
     "password" : "string"
 }
 ```
+
+## User list
+GET /api/user/list
