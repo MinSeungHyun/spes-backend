@@ -9,7 +9,7 @@ export interface IUser extends Document {
 }
 
 export interface IUserModel extends Model<IUser> {
-    findOneByEmail(email: string): Promise<IUser>
+    findOneByEmail(email: string): Promise<IUserModel>
     verify(password: string): boolean
 }
 
