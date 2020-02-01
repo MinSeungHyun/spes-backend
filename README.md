@@ -21,3 +21,6 @@ POST /api/auth/login
 
 ## User list
 GET /api/user/list
+
+## Find user by id
+GET /api/user/:id
