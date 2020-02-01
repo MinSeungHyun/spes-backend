@@ -1,8 +1,6 @@
 import { Response, Request } from "express"
 import { IUser, User, IUserModel } from '../../../models/user';
 import { Model } from "mongoose";
-import e = require("express");
-
 
 /*
 POST /api/auth/register

@@ -1,4 +1,8 @@
 import mongoose, { Document, Schema, Model, model } from 'mongoose'
+import scrypt from 'scryptsy'
+
+const hashPassword = (password: string) =>
+    scrypt(password, '$alt', 8192, 5, 1, 25).toString('base64')
 
 mongoose.set('useCreateIndex', true)
 
@@ -20,7 +24,11 @@ const UserSchema: Schema = new Schema({
 })
 
 UserSchema.statics.create = function(username: string, email: string, password: string) {
-    const user = new this({username, email, password})
+    const user = new this({
+        username,
+        email,
+        password: hashPassword(password)
+    })
     user.save()
 }
 
@@ -29,7 +37,7 @@ UserSchema.statics.findOneByEmail = function(email: string) {
 }
 
 UserSchema.methods.verify = function(password: string) {
-    return this.password === password
+    return this.password === hashPassword(password)
 }
 
 export const User = model<IUser, IUserModel>('User', UserSchema)
