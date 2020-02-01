@@ -10,10 +10,13 @@ export interface IUser extends Document {
     username: string
     email: string
     password: string
+
+    findOneByEmail(email: string): Promise<IUser>
+    verify(password: string): boolean
 }
 
 export interface IUserModel extends Model<IUser> {
-    findOneByEmail(email: string): Promise<IUserModel>
+    findOneByEmail(email: string): Promise<IUser>
     verify(password: string): boolean
 }
 

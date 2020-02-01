@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
-import { IUserModel, User } from '../../../models/user';
+import { IUser, User } from '../../../models/user';
 
 /*
 POST /api/auth/register
@@ -14,7 +14,7 @@ POST /api/auth/register
 export const register = (req: Request, res: Response) => {
     const { username, email, password } = req.body
 
-    const create = (user: IUserModel) => {
+    const create = (user: IUser) => {
         if (user) {
             throw new Error('Email already exists')
         } else {
@@ -51,10 +51,10 @@ POST /api/auth/login
 */
 
 export const login = (req: Request, res: Response) => {
-    const { username, email, password } = req.body
+    const { email, password } = req.body
     const secret = req.app.get('jwt-secret')
 
-    const check = (user: IUserModel): Promise<string> => {
+    const check = (user: IUser): Promise<string> => {
         if (!user){
             throw new Error('login failed')
         } else {
@@ -62,8 +62,8 @@ export const login = (req: Request, res: Response) => {
                 return new Promise((resolve, reject) => {
                     jwt.sign(
                         {
-                            email: email,
-                            username: username
+                            email: user.email,
+                            username: user.username
                         },
                         secret,
                         {
