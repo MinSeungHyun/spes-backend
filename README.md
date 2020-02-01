@@ -9,3 +9,12 @@ POST /api/auth/register
     "password" : "string"
 }
 ```
+
+## 로그인
+POST /api/auth/login
+```JSON
+{
+    "email" : "string",
+    "password" : "string"
+}
+```
