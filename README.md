@@ -4,8 +4,8 @@ Spes Backend
 POST /api/auth/register  
 ```JSON
 {
-    username: string,
-    email: string (unique),
-    password: string
+    "username" : "string",
+    "email" : "string (unique)",
+    "password" : "string"
 }
 ```
