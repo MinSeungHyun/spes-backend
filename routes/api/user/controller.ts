@@ -12,4 +12,26 @@ export const list = (_: Request, res: Response) => {
             message: 'success',
             users 
         }))
+        .catch((error: Error) => {
+            res.status(404).json({
+                message: error.message
+            })
+        })
+}
+
+/*
+GET /api/user/:email
+*/
+
+export const find = (req: Request, res: Response) => {
+    User.findById(req.params.id, '-password -__v')
+        .then(user => res.json({
+            message: 'success',
+            user
+        }))
+        .catch((error: Error) => {
+            res.status(404).json({
+                message: error.message
+            })
+        })
 }
