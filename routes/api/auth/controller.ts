@@ -62,6 +62,7 @@ export const login = (req: Request, res: Response) => {
                 return new Promise((resolve, reject) => {
                     jwt.sign(
                         {
+                            _id: user._id,
                             email: user.email,
                             username: user.username
                         },
