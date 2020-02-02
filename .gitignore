@@ -24,5 +24,4 @@ coverage
 benchmarks/graphs
 
 *.js
-config.ts
 .vscode
