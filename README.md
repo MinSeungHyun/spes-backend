@@ -45,14 +45,13 @@
 {
     "rooms": [
         {
-            "id": "objectID",
+            "_id": "objectID",
             "author": {
                 "name": "string",
                 "profile": "string (link)"
             },
-            "users": 0,
-            "title": "string",
-            "created": 1580784527,
+            "users": ["여준호", "민승현", "손지민"],
+            "title": "string"
         }
     ]
 }
@@ -74,19 +73,16 @@
             "id": "objectID",
             "image": "string (link)",
             "content": "string",
-            "author": {
-                "name": "string",
-                "profile": "string (link)"
-            },
-            "vote": [5, 3],
-            "current": 0,
+            "author": "userID",
+            "agree": 5,
+            "agreed": true
         },
     ]
 }
 ```
 
-- `vote[0]`은 찬성 수, `vote[1]`은 반대 수
-- `current`가 0이면 투표안함, 1이면 찬성, 2면 반대
+- `agree`는 동의한 수
+- `agreed`는 동의 했는지 여부
 
 ### 방 생성
 `POST /api/room`
