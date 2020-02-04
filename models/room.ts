@@ -1,15 +1,14 @@
-import { Document, Model, Schema, model } from 'mongoose';
+import { Document, model, Schema } from 'mongoose';
 
 export interface IRoom extends Document {
     title: string
     goal: string
     continuous: boolean
     finish: number
-    users: [number]
-    posts: [number]
-}
+    users: [string]
+    posts: [string]
 
-export interface IRoomModel extends Model<IRoom> {
+    create(userId: string, title: string, goal: string, continuous: boolean, finish: number): IRoom
 }
 
 const RoomSchema = new Schema({
@@ -17,8 +16,14 @@ const RoomSchema = new Schema({
     goal: { type: String,  required: true},
     continuous: { type: Boolean,  required: true},
     finish: { type: Date,  required: true},
-    users: { type: Array, default: []},
-    posts: { type: Array, default: []}
+    users: { type: [String], default: []},
+    posts: { type: [String], default: []}
 })
 
-export const Room = model<IRoom, IRoomModel>('Room', RoomSchema)
+RoomSchema.statics.create = function(userId: string, title: string, goal: string, continuous: boolean, finish: number): IRoom {
+    const room: IRoom = new this({ title, goal, continuous, finish })
+    room.users.push(userId)
+    return room.save()
+}
+
+export const Room = model<IRoom>('Room', RoomSchema)
