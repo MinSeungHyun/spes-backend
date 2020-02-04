@@ -71,7 +71,7 @@
 
 ```json
 {
-    "id": "objectID",
+    "_id": "objectID",
     "users": [
         {
             "_id": "objectID",
@@ -84,7 +84,7 @@
     "goal": "string",
     "posts": [
         {
-            "id": "objectID",
+            "_id": "objectID",
             "image": "string (link)",
             "content": "string",
             "author": "userID",
@@ -112,7 +112,7 @@
 
 ```json
 {
-    "id": "objectID"
+    "_id": "objectID"
 }
 ```
 
@@ -139,7 +139,7 @@
 
 ```json
 {
-    "id": "objectID"
+    "_id": "objectID"
 }
 ```
 

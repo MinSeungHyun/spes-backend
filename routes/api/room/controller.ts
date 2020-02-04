@@ -13,7 +13,7 @@ export const create = (req: Request, res: Response) => {
 
     const respond = (room: IRoom) => {
         res.json({
-            id: room._id
+            _id: room._id
         })
     }
 
