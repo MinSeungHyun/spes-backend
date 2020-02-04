@@ -144,3 +144,16 @@
 ```
 
 토큰 주인이 글을 쓴다.
+
+### 투표
+`POST /api/post/vote/:postID`
+
+response
+```json
+{
+    "agree": 5,
+    "agreed": true
+}
+```
+
+토큰 주인의 투표(동의) 여부를 토글한다.
