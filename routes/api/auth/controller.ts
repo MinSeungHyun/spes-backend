@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import jwt from 'jsonwebtoken';
-import { IUser, User } from '../../../models/user';
+import { Request, Response } from "express"
+import jwt from 'jsonwebtoken'
+import { IUser, User } from '../../../models/user'
 
 /*
 POST /api/auth/register
@@ -35,7 +35,7 @@ export const register = (req: Request, res: Response) => {
         })
     }
 
-    User.findOneByEmail(email)
+    User.schema.statics.findOneByEmail(email)
         .then(create)
         .then(respond)
         .catch(onError)
@@ -104,7 +104,7 @@ export const login = (req: Request, res: Response) => {
         })
     }
 
-    User.findOneByEmail(email)
+    User.schema.statics.findOneByEmail(email)
         .then(check)
         .then(respond)
         .catch(onError)
