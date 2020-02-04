@@ -28,9 +28,10 @@
 {
     "token": "string",
     "user": {
-        "id": "objectID",
+        "_id": "objectID",
         "username": "string",
-        "email": "string"
+        "email": "string",
+        "profile": "string"
     }
 }
 ```
