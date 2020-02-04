@@ -50,7 +50,14 @@
                 "name": "string",
                 "profile": "string (link)"
             },
-            "users": ["여준호", "민승현", "손지민"],
+            "users": [
+                {
+                    "_id": "objectID",
+                    "username": "string",
+                    "email": "string",
+                    "profile": "string"
+                }
+            ],
             "title": "string"
         }
     ]
@@ -65,7 +72,14 @@
 ```json
 {
     "id": "objectID",
-    "users": ["여준호", "민승현", "손지민"],
+    "users": [
+        {
+            "_id": "objectID",
+            "username": "string",
+            "email": "string",
+            "profile": "string"
+        }
+    ],
     "title": "string",
     "goal": "string",
     "posts": [
