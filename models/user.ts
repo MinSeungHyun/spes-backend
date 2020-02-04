@@ -10,6 +10,7 @@ export interface IUser extends Document {
     username: string
     email: string
     password: string
+    profile: string
 
     findOneByEmail(email: string): Promise<IUser>
     verify(password: string): boolean
@@ -23,14 +24,16 @@ export interface IUserModel extends Model<IUser> {
 const UserSchema: Schema = new Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, trim: true, unique: true, lowercase: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    profile: {type: String, default: ""}
 })
 
-UserSchema.statics.create = function(username: string, email: string, password: string) {
+UserSchema.statics.create = function(username: string, email: string, password: string, profile: string) {
     const user = new this({
         username,
         email,
-        password: hashPassword(password)
+        password: hashPassword(password),
+        profile
     })
     user.save()
 }

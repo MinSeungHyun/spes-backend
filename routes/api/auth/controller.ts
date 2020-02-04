@@ -12,19 +12,17 @@ POST /api/auth/register
 */
 
 export const register = (req: Request, res: Response) => {
-    const { username, email, password } = req.body
+    const { username, email, password, profile } = req.body
 
     const create = (user: IUser) => {
         if (user) {
             throw new Error('Email already exists')
         } else {
-            return User.create(username, email, password)
+            return User.create(username, email, password, profile)
         }
     }
 
     const respond = () => {
-        User.create(username, email, password)
-
         res.json({
             message: 'success'
         })
@@ -64,7 +62,8 @@ export const login = (req: Request, res: Response) => {
                         {
                             _id: user._id,
                             email: user.email,
-                            username: user.username
+                            username: user.username,
+                            profile: user.profile
                         },
                         secret,
                         {
