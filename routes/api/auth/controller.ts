@@ -7,7 +7,8 @@ POST /api/auth/register
 {
     username: string,
     email: string,
-    password: string
+    password: string,
+    profile: string
 }
 */
 
@@ -51,19 +52,24 @@ POST /api/auth/login
 export const login = (req: Request, res: Response) => {
     const { email, password } = req.body
     const secret = req.app.get('jwt-secret')
+    let _id: string, username: string, profile: string
 
     const check = (user: IUser): Promise<string> => {
         if (!user){
             throw new Error('login failed')
         } else {
             if(user.verify(password)) {
+                _id = user._id
+                username = user.username
+                profile = user.profile
+
                 return new Promise((resolve, reject) => {
                     jwt.sign(
                         {
-                            _id: user._id,
-                            email: user.email,
-                            username: user.username,
-                            profile: user.profile
+                            _id,
+                            email,
+                            username,
+                            profile
                         },
                         secret,
                         {
@@ -82,8 +88,13 @@ export const login = (req: Request, res: Response) => {
 
     const respond = (token: string) => {
         res.json({
-            message: 'success',
-            token
+            token,
+            user: {
+                _id,
+                email,
+                username,
+                profile
+            }
         })
     }
 
