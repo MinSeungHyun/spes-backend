@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Error } from 'mongoose';
 import { TokenInterface } from '../../../middlewares/auth';
-import { IRoom, Room } from '../../../models/room';
+import { IRoom, Room, RoomResponse } from '../../../models/room';
 
 export const create = (req: Request, res: Response) => {
     const decoded = req.body.decoded as TokenInterface
@@ -23,7 +23,7 @@ export const create = (req: Request, res: Response) => {
 export const join = (req: Request, res: Response) => {
     const decoded = req.body.decoded as TokenInterface
     const roomId = req.params.roomId
-    let userId = decoded._id
+    const userId = decoded._id
 
     const joinUser = (room: IRoom | null) => {
         if(!room) throw new Error('')
@@ -43,4 +43,23 @@ export const join = (req: Request, res: Response) => {
     Room.findById(roomId)
         .then(joinUser)
         .catch(onError)
+}
+
+export const roomInfo = (req: Request, res: Response) => {
+    const userId = (req.body.decoded as TokenInterface)._id
+    const roomId = req.params.roomId
+
+    Room.findById(roomId)
+        .then((room: IRoom | null) => {
+            if(!room) throw new Error('Room not found')
+            return room.toRoomResponse(userId)
+        })
+        .then((roomResponse: RoomResponse) => {
+            res.json(roomResponse)
+        })
+        .catch((err: Error) => {
+            res.status(400).json({
+                message: err.message
+            })
+        })
 }
