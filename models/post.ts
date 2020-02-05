@@ -1,5 +1,6 @@
 import { Document, model, Schema } from 'mongoose'
-import { IRoom, Room } from './room'
+import { Room } from './room'
+import { User } from './user'
 
 export interface IPost extends Document {
   content: string
@@ -24,29 +25,42 @@ const PostSchema = new Schema({
   created: { type: Number, default: Date.now() }
 })
 
-PostSchema.statics.create = function(roomId: string, userId: string, content: string, image: string | undefined): Promise<IPost> {
+PostSchema.statics.create = async function(roomId: string, userId: string, content: string, image: string | undefined): Promise<IPost> {
   const post: IPost = new this({
     author: userId,
     content,
     image
   })
-  return Room.findById(roomId)
-    .then((room: IRoom | null) => {
-      if (!room) throw new Error('Room not found')
-      room.posts.push(post._id)
-      room.save()
 
-      post.userCount = room.users.length
-      return post.save()
-    })
-    .catch(err => {
-      return Promise.reject(err)
-    })
+  const room = await Room.findById(roomId)
+  if (!room) throw new Error('Room not found')
+  room.posts.push(post._id)
+  await room.save()
+
+  const user = await User.findById(userId)
+  if (!user) throw new Error('User not found')
+  user.achievement[1]++
+  user.markModified('achievement')
+  await user.save()
+
+  post.userCount = room.users.length
+  return post.save()
 }
 
-PostSchema.methods.vote = function(userId: string): Promise<IPost> {
+PostSchema.methods.vote = async function(userId: string): Promise<IPost> {
   const post = this as IPost
-  post.agreedUsers.push(userId)
+  const index = post.agreedUsers.indexOf(userId)
+  if (index == -1) post.agreedUsers.push(userId)
+  else post.agreedUsers.splice(index, 1)
+
+  if (post.isClosed()) {
+    const user = await User.findById(post.author)
+    if (!user) throw new Error('User not found')
+    user.achievement[0]++
+    user.markModified('achievement')
+    await user.save()
+  }
+
   return post.save()
 }
 

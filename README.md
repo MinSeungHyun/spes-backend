@@ -9,9 +9,14 @@
      "_id": "objectID",
      "username": "string",
      "email": "string",
-     "profile": "string"
+     "profile": "string",
+     "achievement": [12, 18]
    }
    ```
+
+   `achievement[0]` : 올린 포스트중 closed(인정) 된 것의 수  
+   `achievement[1]` : 올린 모들 포스트의 수  
+   달성률 = achievement[0] / achievement[1] \* 100
 
 2. Post
 

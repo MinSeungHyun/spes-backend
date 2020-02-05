@@ -10,6 +10,7 @@ export interface IUser extends Document {
   email: string
   password: string
   profile: string
+  achievement: number[]
 
   create(username: string, email: string, password: string, profile: string): Promise<IUser>
   findOneByEmail(email: string): Promise<IUser>
@@ -21,7 +22,8 @@ const UserSchema: Schema = new Schema({
   username: { type: String, required: true },
   email: { type: String, required: true, trim: true, unique: true, lowercase: true },
   password: { type: String, required: true },
-  profile: { type: String, default: '' }
+  profile: { type: String, default: '' },
+  achievement: { type: [Number], default: [0, 0] }
 })
 
 UserSchema.statics.create = function(username: string, email: string, password: string, profile: string): Promise<IUser> {
@@ -59,4 +61,5 @@ export interface UserResponse {
   username: string
   email: string
   profile: string
+  achievement: number[]
 }

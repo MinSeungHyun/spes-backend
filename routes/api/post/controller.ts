@@ -44,11 +44,7 @@ export const vote = (req: Request, res: Response) => {
     .then((post: IPost | null) => {
       if (!post) throw new Error('Post not found')
       if (post.isClosed()) throw new Error("This post's vote is closed")
-
-      const index = post.agreedUsers.indexOf(userId)
-      if (index == -1) post.agreedUsers.push(userId)
-      else post.agreedUsers.splice(index, 1)
-      return post.save()
+      return post.vote(userId)
     })
     .then((post: IPost) => {
       res.json({
