@@ -227,6 +227,7 @@ closed된 포스트라면 에러 발생 `"This post's vote is closed`
 ### 이미지 저장
 
 `POST /api/image`
+
 request
 
 ```json
@@ -242,3 +243,7 @@ response
   "fileName": "string"
 }
 ```
+
+### 이미지 불러오기
+
+`GET /api/image/:fileName`
