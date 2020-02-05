@@ -15,6 +15,8 @@ app.use(bodyParser.json())
 app.use(morgan('dev'))
 app.set('jwt-secret', config.secret)
 
+app.use(express.static('.'))
+
 app.get('/', (_, res) => {
   res.send('spes')
 })

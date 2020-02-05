@@ -221,3 +221,24 @@ response
 
 토큰 주인의 투표(동의) 여부를 토글한다.  
 closed된 포스트라면 에러 발생 `"This post's vote is closed`
+
+## 이미지
+
+### 이미지 저장
+
+`POST /api/image`
+request
+
+```json
+{
+  "image": "Image"
+}
+```
+
+response
+
+```json
+{
+  "fileName": "string"
+}
+```
