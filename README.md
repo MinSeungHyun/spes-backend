@@ -60,7 +60,7 @@ response
 response
 ```json
 {
-    "user": [
+    "users": [
         {
             "_id": "objectID",
             "username": "string",
@@ -126,7 +126,8 @@ response
             "content": "string",
             "author": "userID",
             "agreedUsers": ["userObjectId"],
-            "agreed": true
+            "agreed": true,
+            "created": 1580878048528
         },
     ]
 }
@@ -168,8 +169,8 @@ response
 request
 ```json
 {
-    "image": "string (link)",
-    "content": "string"
+    "content": "string",
+    "image": "string (link, optional)"
 }
 ```
 
@@ -193,7 +194,8 @@ response
     "content": "string",
     "author": "userID",
     "agreedUsers": ["userObjectId"],
-    "agreed": true
+    "agreed": true,
+    "created": 1580878048528
 }
 ```
 

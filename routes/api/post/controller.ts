@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { TokenInterface } from '../../../middlewares/auth';
-import { IPost, Post } from '../../../models/post';
+import { IPost, Post, PostResponse } from '../../../models/post';
+import { post } from './index';
 
 
 export const createPost = (req: Request, res: Response) => {
@@ -22,12 +23,13 @@ export const createPost = (req: Request, res: Response) => {
 }
 
 export const postInfo = (req: Request, res: Response) => {
+    const userId = (req.body.decoded as TokenInterface)._id
     const postId = req.params.postId
 
-    Post.findById(postId, '-__v')
+    Post.findById(postId)
         .then((post: IPost | null) => {
             if(!post) throw new Error('Post not found')
-            res.json(post)
+            res.json(post.toPostResponse(userId))
         })
         .catch((err: Error) => {
             res.status(404).json({
