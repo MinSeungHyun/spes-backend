@@ -9,7 +9,7 @@ import { user } from './user'
 const router: Router = express.Router()
 router.use('/auth', auth)
 router.use('/user', authMiddleware, user)
-router.use('/room', authMiddleware, room)
+router.use('/room', room)
 router.use('/post', authMiddleware, post)
 router.use('/image', image)
 

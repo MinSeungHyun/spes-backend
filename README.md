@@ -132,14 +132,14 @@ response
 
 현재 사용자(토큰 주인)의 방 목록을 구함
 
-### 방 정보
+### 방 정보 (토큰 Optional)
 
 `GET /api/room/:roomID`
 
 response
 
 ```
-Room 모델
+Room 모델 (토큰이 없다면 Post의 agreed가 false로 온다)
 ```
 
 ### 방 생성
