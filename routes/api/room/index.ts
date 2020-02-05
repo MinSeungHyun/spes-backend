@@ -1,6 +1,5 @@
-import express from 'express';
-import { create, join, roomInfo, roomsForUser } from './controller';
-
+import express from 'express'
+import { create, join, roomInfo, roomsForUser } from './controller'
 
 const router = express.Router()
 router.get('/', roomsForUser)

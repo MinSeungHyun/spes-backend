@@ -1,9 +1,9 @@
-import express, { Router } from 'express';
-import { authMiddleware } from '../../middlewares/auth';
-import { auth } from './auth';
-import { post } from './post/index';
-import { room } from './room/index';
-import { user } from './user';
+import express, { Router } from 'express'
+import { authMiddleware } from '../../middlewares/auth'
+import { auth } from './auth'
+import { post } from './post/index'
+import { room } from './room/index'
+import { user } from './user'
 
 const router: Router = express.Router()
 router.use('/auth', auth)
