@@ -165,7 +165,7 @@ response
 }
 ```
 
-### 방 입장
+### 방 입장 (토큰 불필요)
 
 `POST /api/room/:roomID`
 
