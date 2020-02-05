@@ -8,6 +8,8 @@ import { api } from './routes/api'
 const port = 3000
 const app = express()
 
+var cors = require('cors')
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(morgan('dev'))
