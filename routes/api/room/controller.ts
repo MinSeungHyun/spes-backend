@@ -1,43 +1,29 @@
 import { Request, Response } from 'express';
 import { Error } from 'mongoose';
 import { IRoom, Room } from '../../../models/room';
-import { verifyToken } from '../../../utils/authorization';
-import { TokenInterface } from '../../../utils/tokenInterface';
-
+import { TokenInterface } from '../../../middlewares/auth';
 
 export const create = (req: Request, res: Response) => {
-    const token = req.headers.authorization
+    const decoded = req.body.decoded as TokenInterface
     const { title, goal, continuous, finish } = req.body
 
-    const createRoom = (decoded: TokenInterface) => Room.create(decoded._id, title, goal, continuous, finish)
-
-    const respond = (room: IRoom) => {
-        res.json({
-            _id: room._id
+    Room.create(decoded._id, title, goal, continuous, finish)
+        .then((room: IRoom) => {
+            res.json({
+                _id: room._id
+            })
         })
-    }
-
-    const onError = (error: Error) => {
-        res.status(401).json({
-            message: error.message
+        .catch((error: Error) => {
+            res.status(401).json({
+                message: error.message
+            })
         })
-    }
-
-    verifyToken(token)
-        .then(createRoom)
-        .then(respond)
-        .catch(onError)
 }
 
 export const join = (req: Request, res: Response) => {
-    const token = req.headers.authorization
+    const decoded = req.body.decoded as TokenInterface
     const roomId = req.params.roomId
-    let userId: string
-
-    const saveUserIdAndFindRoom = (decoded: TokenInterface) => {
-        userId = decoded._id
-        return Room.findById(roomId)
-    }
+    let userId = decoded._id
 
     const joinUser = (room: IRoom | null) => {
         if(!room) throw new Error('')
@@ -54,8 +40,7 @@ export const join = (req: Request, res: Response) => {
         })
     }
 
-    verifyToken(token)
-        .then(saveUserIdAndFindRoom)
+    Room.findById(roomId)
         .then(joinUser)
         .catch(onError)
 }
