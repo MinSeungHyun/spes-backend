@@ -1,5 +1,5 @@
-import express from 'express';
-import { createPost, postInfo, vote } from './controller';
+import express from 'express'
+import { createPost, postInfo, vote } from './controller'
 
 const router = express.Router()
 router.post('/:roomId', createPost)

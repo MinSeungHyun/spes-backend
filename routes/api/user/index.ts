@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { find, list } from './controller';
+import { Router } from 'express'
+import { find, list } from './controller'
 
 const router = Router()
 router.get('/', list)
