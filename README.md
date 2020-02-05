@@ -1,5 +1,45 @@
 # Spes Backend
 
+## 사용되는 모델
+1. User
+    ```json
+    {
+        "_id": "objectID",
+        "username": "string",
+        "email": "string",
+        "profile": "string"
+    }
+    ```
+
+2. Post
+    ```json
+    {
+        "_id": "objectID",
+        "image": "string (link)",
+        "content": "string",
+        "author": "userID",
+        "agreedUsers": ["userObjectId"],
+        "agreed": true,
+        "created": 12808048528
+    }
+    ```
+    `agreed` :  동의 여부, 사용자에 따라 다르다.
+
+3. Room
+    ```json
+    {
+        "_id": "objectID",
+        "title": "string",
+        "goal": "string",
+        "continuous": true,
+        "finish": 12808048528,
+        "finished": false,
+        "users": ["User 모델"],
+        "posts": ["Post 모델"],
+    }
+    ```
+    `finished` : 방이 끝났는지 여부, finish날짜가 지나면 true로 되며, 방이 읽기 전용이 된다. 
+
 ## 인증
 
 ### 회원가입
@@ -30,12 +70,7 @@ response
 ```json
 {
     "token": "string",
-    "user": {
-        "_id": "objectID",
-        "username": "string",
-        "email": "string",
-        "profile": "string"
-    }
+    "user": "User 모델"
 }
 ```
 
@@ -45,13 +80,8 @@ response
 `GET /api/user/:id`
 
 response
-```json
-{
-    "_id": "objectID",
-    "username": "string",
-    "email": "string",
-    "profile": "string"
-}
+```
+User 모델
 ```
 
 ### 모든 사용자 정보 가져오기
@@ -60,14 +90,7 @@ response
 response
 ```json
 {
-    "users": [
-        {
-            "_id": "objectID",
-            "username": "string",
-            "email": "string",
-            "profile": "string"
-        }
-    ]
+    "users": ["User 모델"]
 }
 ```
 
@@ -79,24 +102,7 @@ response
 response
 ```json
 {
-    "rooms": [
-        {
-            "_id": "objectID",
-            "author": {
-                "name": "string",
-                "profile": "string (link)"
-            },
-            "users": [
-                {
-                    "_id": "objectID",
-                    "username": "string",
-                    "email": "string",
-                    "profile": "string"
-                }
-            ],
-            "title": "string"
-        }
-    ]
+    "rooms": ["Room 모델"]
 }
 ```
 
@@ -106,35 +112,9 @@ response
 `GET /api/room/:roomID`
 
 response
-```json
-{
-    "_id": "objectID",
-    "users": [
-        {
-            "_id": "objectID",
-            "username": "string",
-            "email": "string",
-            "profile": "string"
-        }
-    ],
-    "title": "string",
-    "goal": "string",
-    "posts": [
-        {
-            "_id": "objectID",
-            "image": "string (link)",
-            "content": "string",
-            "author": "userID",
-            "agreedUsers": ["userObjectId"],
-            "agreed": true,
-            "created": 1580878048528
-        },
-    ]
-}
 ```
-
-- `agreedUsers`는 동의한 사용자의 ID 리스트
-- `agreed`는 동의 했는지 여부
+Room 모델
+```
 
 ### 방 생성
 `POST /api/room`
@@ -187,16 +167,8 @@ response
 `GET /api/post/:postId`
 
 response
-```json
-{
-    "_id": "objectID",
-    "image": "string (link)",
-    "content": "string",
-    "author": "userID",
-    "agreedUsers": ["userObjectId"],
-    "agreed": true,
-    "created": 1580878048528
-}
+```
+POST 모델
 ```
 
 ### 투표
