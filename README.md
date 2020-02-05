@@ -23,11 +23,13 @@
      "author": "userID",
      "agreedUsers": ["userObjectId"],
      "agreed": true,
-     "created": 12808048528
+     "created": 12808048528,
+     "closed": false
    }
    ```
 
-   `agreed` : 동의 여부, 사용자에 따라 다르다.
+   `agreed` : 동의 여부, 사용자에 따라 다르다.  
+   `closed` : 투표가 끝났는지 여부, 방에 있는 모든 사람이 동의 하면 true가 되고 더이상 투표할 수 없다.
 
 3. Room
    ```json
@@ -210,4 +212,5 @@ response
 }
 ```
 
-토큰 주인의 투표(동의) 여부를 토글한다.
+토큰 주인의 투표(동의) 여부를 토글한다.  
+closed된 포스트라면 에러 발생 `"This post's vote is closed`

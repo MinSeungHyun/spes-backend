@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { TokenInterface } from '../../../middlewares/auth'
-import { IPost, Post, PostResponse } from '../../../models/post'
-import { post } from './index'
+import { IPost, Post } from '../../../models/post'
 
 export const createPost = (req: Request, res: Response) => {
   const userId = (req.body.decoded as TokenInterface)._id
@@ -44,6 +43,8 @@ export const vote = (req: Request, res: Response) => {
   Post.findById(postId)
     .then((post: IPost | null) => {
       if (!post) throw new Error('Post not found')
+      if (post.isClosed()) throw new Error("This post's vote is closed")
+
       const index = post.agreedUsers.indexOf(userId)
       if (index == -1) post.agreedUsers.push(userId)
       else post.agreedUsers.splice(index, 1)

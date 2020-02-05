@@ -1,6 +1,5 @@
 import { Document, model, Schema } from 'mongoose'
 import { IRoom, Room } from './room'
-import { response } from 'express'
 
 export interface IPost extends Document {
   content: string
@@ -8,15 +7,18 @@ export interface IPost extends Document {
   image: string
   agreedUsers: [string]
   created: number
+  userCount: number
 
   vote(userId: string): Promise<IPost>
   create(roomId: string, userId: string, content: string, image: string | undefined): Promise<IPost>
   toPostResponse(userId: string): PostResponse
+  isClosed(): boolean
 }
 
 const PostSchema = new Schema({
   content: { type: String, required: true },
   author: { type: String, required: true },
+  userCount: { type: Number, required: true },
   image: { type: String, default: '' },
   agreedUsers: { type: [String], default: [] },
   created: { type: Number, default: Date.now() }
@@ -33,10 +35,12 @@ PostSchema.statics.create = function(roomId: string, userId: string, content: st
       if (!room) throw new Error('Room not found')
       room.posts.push(post._id)
       room.save()
+
+      post.userCount = room.users.length
       return post.save()
     })
     .catch(err => {
-      return new Promise((resolve, reject) => reject(err))
+      return Promise.reject(err)
     })
 }
 
@@ -55,8 +59,14 @@ PostSchema.methods.toPostResponse = function(userId: string): PostResponse {
     author: post.author,
     agreedUsers: post.agreedUsers,
     agreed: post.agreedUsers.includes(userId),
-    created: post.created
+    created: post.created,
+    closed: post.isClosed()
   } as PostResponse
+}
+
+PostSchema.methods.isClosed = function(): boolean {
+  const post = this as IPost
+  return post.agreedUsers.length >= post.userCount
 }
 
 export const Post = model<IPost>('Post', PostSchema)
@@ -69,4 +79,5 @@ export interface PostResponse {
   agreedUsers: [string]
   agreed: boolean
   created: number
+  closed: boolean
 }
