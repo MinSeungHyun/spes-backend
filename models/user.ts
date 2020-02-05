@@ -12,7 +12,7 @@ export interface IUser extends Document {
     password: string
     profile: string
 
-    create(username: string, email: string, password: string, profile: string): void
+    create(username: string, email: string, password: string, profile: string): Promise<IUser>
     findOneByEmail(email: string): Promise<IUser>
     verify(password: string): boolean
     toUserResponse(): UserResponse
@@ -25,14 +25,14 @@ const UserSchema: Schema = new Schema({
     profile: {type: String, default: ""}
 })
 
-UserSchema.statics.create = function(username: string, email: string, password: string, profile: string) {
-    const user = new this({
+UserSchema.statics.create = function(username: string, email: string, password: string, profile: string): Promise<IUser> {
+    const user: IUser = new this({
         username,
         email,
         password: hashPassword(password),
         profile
     })
-    user.save()
+    return user.save()
 }
 
 UserSchema.statics.findOneByEmail = function(email: string) {
