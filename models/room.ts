@@ -11,7 +11,7 @@ export interface IRoom extends Document {
   posts: string[]
 
   create(userId: string, title: string, goal: string, continuous: boolean, finish: number): Promise<IRoom>
-  toRoomResponse(userId: string): Promise<RoomResponse>
+  toRoomResponse(userId: string | undefined): Promise<RoomResponse>
 }
 
 const RoomSchema = new Schema({
@@ -29,7 +29,7 @@ RoomSchema.statics.create = function(userId: string, title: string, goal: string
   return room.save()
 }
 
-RoomSchema.methods.toRoomResponse = async function(requestUserId: string): Promise<RoomResponse> {
+RoomSchema.methods.toRoomResponse = async function(requestUserId: string | undefined): Promise<RoomResponse> {
   const room = this as IRoom
 
   const userResponses: UserResponse[] = []

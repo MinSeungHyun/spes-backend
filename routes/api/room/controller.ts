@@ -1,5 +1,7 @@
 import { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 import { Error } from 'mongoose'
+import { config } from '../../../config'
 import { TokenInterface } from '../../../middlewares/auth'
 import { IRoom, Room, RoomResponse } from '../../../models/room'
 
@@ -46,10 +48,16 @@ export const join = (req: Request, res: Response) => {
 }
 
 export const roomInfo = (req: Request, res: Response) => {
-  const userId = (req.body.decoded as TokenInterface)._id
+  const token = req.headers.authorization
   const roomId = req.params.roomId
+  let userId: string | undefined
 
-  Room.findById(roomId)
+  const verifyToken = async (token: string | undefined) => {
+    if (token) userId = ((await jwt.verify(token, config.secret)) as TokenInterface)._id
+  }
+
+  verifyToken(token)
+    .then(() => Room.findById(roomId))
     .then((room: IRoom | null) => {
       if (!room) throw new Error('Room not found')
       return room.toRoomResponse(userId)

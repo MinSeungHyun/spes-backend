@@ -12,7 +12,7 @@ export interface IPost extends Document {
 
   vote(userId: string): Promise<IPost>
   create(roomId: string, userId: string, content: string, image: string | undefined): Promise<IPost>
-  toPostResponse(userId: string): PostResponse
+  toPostResponse(userId: string | undefined): PostResponse
   isClosed(): boolean
 }
 
@@ -64,15 +64,16 @@ PostSchema.methods.vote = async function(userId: string): Promise<IPost> {
   return post.save()
 }
 
-PostSchema.methods.toPostResponse = function(userId: string): PostResponse {
+PostSchema.methods.toPostResponse = function(userId: string | undefined): PostResponse {
   const post = this as IPost
+  const agreed = userId ? post.agreedUsers.includes(userId) : false
   return {
     _id: post._id,
     content: post.content,
     image: post.image,
     author: post.author,
     agreedUsers: post.agreedUsers,
-    agreed: post.agreedUsers.includes(userId),
+    agreed,
     created: post.created,
     closed: post.isClosed()
   } as PostResponse
