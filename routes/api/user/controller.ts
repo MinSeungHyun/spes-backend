@@ -1,9 +1,11 @@
 import { Request, Response } from 'express'
-import { IUser, User, UserResponse } from '../../../models/user'
+import { IUser, User, UserResponse, getAchievementProtage } from '../../../models/user'
 
 export const list = (_: Request, res: Response) => {
   User.find()
     .then((users: IUser[]) => {
+      users.sort((a, b) => getAchievementProtage(b) - getAchievementProtage(a))
+
       const userResponses: UserResponse[] = []
       users.forEach((user: IUser) => userResponses.push(user.toUserResponse()))
       res.json({

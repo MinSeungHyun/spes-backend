@@ -64,3 +64,7 @@ export interface UserResponse {
   profile: string
   achievement: number[]
 }
+
+export function getAchievementProtage(user: IUser): number {
+  return (user.achievement[0] / user.achievement[1]) * 100
+}
