@@ -7,8 +7,8 @@ export interface IRoom extends Document {
     goal: string
     continuous: boolean
     finish: number
-    users: [string]
-    posts: [string]
+    users: string[]
+    posts: string[]
 
     create(userId: string, title: string, goal: string, continuous: boolean, finish: number): Promise<IRoom>
     toRoomResponse(userId: string): Promise<RoomResponse>
@@ -18,7 +18,7 @@ const RoomSchema = new Schema({
     title: { type: String,  required: true},
     goal: { type: String,  required: true},
     continuous: { type: Boolean,  required: true},
-    finish: { type: Date,  required: true},
+    finish: { type: Number,  required: true},
     users: { type: [String], default: []},
     posts: { type: [String], default: []}
 })
@@ -35,34 +35,36 @@ RoomSchema.methods.toRoomResponse = async function(requestUserId: string): Promi
     const userResponses: UserResponse[] = []
     for(const userId of room.users){
         const user = await User.findById(userId)
-        if(!user) throw new Error('User not found')
-        userResponses.push(user.toUserResponse())
+        if(user) userResponses.push(user.toUserResponse())
     }
 
     const postResponses: PostResponse[] = []
     for(const postId of room.posts){
         const post = await Post.findById(postId)
-        if(!post) throw new Error('Post not found')
-        postResponses.push(post.toPostResponse(requestUserId))
+        if(post) postResponses.push(post.toPostResponse(requestUserId))
     }
 
     return {
+        _id: room._id,
         title: room.title,
         goal: room.goal,
         continuous: room.continuous,
         finish: room.finish,
         users: userResponses,
-        posts: postResponses
+        posts: postResponses,
+        finished: Date.now() >= room.finish
     } as RoomResponse
 }
 
 export const Room = model<IRoom>('Room', RoomSchema)
 
 export interface RoomResponse {
+    _id: string
     title: string
     goal: string
     continuous: boolean
     finish: number
-    users: [UserResponse]
-    posts: [PostResponse]
+    users: UserResponse[]
+    posts: PostResponse[]
+    finished: boolean
 }
