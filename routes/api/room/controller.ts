@@ -63,3 +63,23 @@ export const roomInfo = (req: Request, res: Response) => {
             })
         })
 }
+
+export const roomsForUser = (req: Request, res: Response) => {
+    const userId = (req.body.decoded as TokenInterface)._id
+    Room.find({ users: userId })
+        .then(async (rooms: IRoom[]) => {
+            const roomResponses: RoomResponse[] = []
+            for (const room of rooms){
+                const roomResponse = await room.toRoomResponse(userId)
+                roomResponses.push(roomResponse)
+            }
+            res.json({
+                rooms: roomResponses
+            })
+        })
+        .catch((err: Error) => {
+            res.status(400).json({
+                message: err.message
+            })
+        })
+}
