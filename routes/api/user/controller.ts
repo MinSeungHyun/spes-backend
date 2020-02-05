@@ -1,11 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../../../models/user';
 
-
-/*
-GET /api/user/list
-*/
-
 export const list = (_: Request, res: Response) => {
     User.find({}, '-password -__v')
         .then(users => res.json({
@@ -18,10 +13,6 @@ export const list = (_: Request, res: Response) => {
             })
         })
 }
-
-/*
-GET /api/user/:email
-*/
 
 export const find = (req: Request, res: Response) => {
     User.findById(req.params.id, '-password -__v')

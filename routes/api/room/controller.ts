@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Error } from 'mongoose';
-import { IRoom, Room } from '../../../models/room';
 import { TokenInterface } from '../../../middlewares/auth';
+import { IRoom, Room } from '../../../models/room';
 
 export const create = (req: Request, res: Response) => {
     const decoded = req.body.decoded as TokenInterface

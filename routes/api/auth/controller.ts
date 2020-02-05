@@ -2,16 +2,6 @@ import { Request, Response } from "express"
 import jwt from 'jsonwebtoken'
 import { IUser, User } from '../../../models/user'
 
-/*
-POST /api/auth/register
-{
-    username: string,
-    email: string,
-    password: string,
-    profile: string
-}
-*/
-
 export const register = (req: Request, res: Response) => {
     const { username, email, password, profile } = req.body
 
@@ -40,14 +30,6 @@ export const register = (req: Request, res: Response) => {
         .then(respond)
         .catch(onError)
 }
-
-/*
-POST /api/auth/login
-{
-    email: string,
-    password: string
-}
-*/
 
 export const login = (req: Request, res: Response) => {
     const { email, password } = req.body

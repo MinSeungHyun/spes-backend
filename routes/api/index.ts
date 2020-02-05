@@ -1,8 +1,8 @@
 import express, { Router } from 'express';
+import { authMiddleware } from '../../middlewares/auth';
 import { auth } from './auth';
 import { room } from './room/index';
 import { user } from './user';
-import { authMiddleware } from '../../middlewares/auth';
 
 const router: Router = express.Router()
 router.use('/auth', auth)

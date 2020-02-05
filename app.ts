@@ -1,7 +1,7 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import morgan from 'morgan'
-import mongoose from 'mongoose'
+import bodyParser from 'body-parser';
+import express from 'express';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
 import { config } from './config';
 import { api } from './routes/api';
 
