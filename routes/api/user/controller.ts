@@ -1,12 +1,16 @@
 import { Request, Response } from 'express';
-import { User } from '../../../models/user';
+import { IUser, User, UserResponse } from '../../../models/user';
 
 export const list = (_: Request, res: Response) => {
-    User.find({}, '-password -__v')
-        .then(users => res.json({
-            message: 'success',
-            users 
-        }))
+    User.find()
+        .then((users: IUser[]) => {
+            const userResponses: UserResponse[] = []
+            users.forEach((user: IUser) => 
+                userResponses.push(user.toUserResponse()))
+            res.json({
+                users: userResponses
+            })
+        })
         .catch((error: Error) => {
             res.status(404).json({
                 message: error.message
@@ -16,10 +20,10 @@ export const list = (_: Request, res: Response) => {
 
 export const find = (req: Request, res: Response) => {
     User.findById(req.params.id, '-password -__v')
-        .then(user => res.json({
-            message: 'success',
-            user
-        }))
+        .then((user: IUser | null) => {
+            if(!user) throw new Error('User not found')
+            res.json(user.toUserResponse())
+        })
         .catch((error: Error) => {
             res.status(404).json({
                 message: error.message
