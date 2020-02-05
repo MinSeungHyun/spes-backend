@@ -50,7 +50,8 @@ UserSchema.methods.toUserResponse = function(): UserResponse {
     _id: user._id,
     username: user.username,
     email: user.email,
-    profile: user.profile
+    profile: user.profile,
+    achievement: user.achievement
   } as UserResponse
 }
 
